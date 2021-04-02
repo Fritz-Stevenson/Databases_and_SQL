@@ -1,0 +1,39 @@
+-- How many female customers do we have from the state of Oregon (OR)?
+
+--Count the customers from the customer table
+SELECT count(customerid) FROM "public"."customers"
+--Who are located in Oregon
+WHERE "public"."customers"."state" = 'OR'
+--answer:220
+
+
+-- Who over the age of 44 has an income of 100 000 or more? (excluding 44)
+
+--Count the customers from the customer table
+SELECT count(customerid) FROM "public"."customers"
+--Who are older than 44
+WHERE age > 44 AND 
+--and make 100,000 or more in income
+income >= 100000
+--answer:2497
+
+
+-- Who between the ages of 30 and 50 has an income less than 50 000?
+-- (include 30 and 50 in the results)
+
+--Count the customers from the customer table
+SELECT count(customerid) FROM "public"."customers"
+--Who are between (and including) 30 and 50 years old
+WHERE age BETWEEN 30 and 50
+--and make less than 50,000
+AND income < 50000
+--answer:2362
+
+
+-- What is the average income between the ages of 20 and 50? (Excluding 20 and 50)
+
+--Calculate the AVG income from the customer table
+SELECT avg(income) FROM "public"."customers"
+--For customers who are between 20 and 50 years old
+WHERE age < 50 and age> 20
+--answer:59409.926240780098
