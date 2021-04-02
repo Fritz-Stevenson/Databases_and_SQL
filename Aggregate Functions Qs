@@ -1,0 +1,51 @@
+-- BEFORE YOU START
+/*
+ * What database should I use for these exercises?
+ * Name: Employees
+ */
+-- 
+
+
+-- Question 1: What is the average salary for the company?
+-- Table: Salaries
+63810.744836143706
+work--SELECT avg ( salary ) FROM salaries;
+
+-- Question 2: What year was the youngest person born in the company?
+-- Table: employees
+1965
+work--SELECT max ( birth_date ) FROM employees;
+
+-- BEFORE YOU START
+/*
+ * What database should I use for these exercises?
+ * Name: France
+ */
+-- 
+
+-- Question 1: How many towns are there in france?
+-- Table: Towns
+4079
+work--SELECT count(id) FROM city
+
+-- BEFORE YOU START
+/*
+ * What database should I use for these exercises?
+ * Name: World
+ */
+-- 
+
+-- Question 1: How many official languages are there?
+-- Table: countrylanguage
+457
+work--SELECT count(DISTINCT language) From "public"."countrylanguage"
+
+-- Question 2: What is the average life expectancy in the world?
+-- Table: country
+66.48603611164265
+SELECT avg(lifeexpectancy) FROM "public"."country"
+
+-- Question 3: What is the average population for cities in the netherlands?
+-- Table: city
+185001.750000000000
+SELECT avg(population) FROM "public"."city" where "public"."city"."countrycode" = 'NLD'
