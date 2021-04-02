@@ -4,3 +4,10 @@ Question 1&2: Select the employee named Mayumi Schueller//Comment your code.
 SELECT * FROM employees WHERE first_name = 'Mayumi' AND last_name = 'Schueller';
       --or, in a fancy fashion
 SELECT * FROM employees WHERE concat( first_name, ' ', last_name) = 'Mayumi Schueller'
+
+Question 3: Select all female emplyees.
+
+--Select all the information_schema
+SELECT * from employees
+--From all female employees
+WHERE "public"."employees"."gender" = 'F'
