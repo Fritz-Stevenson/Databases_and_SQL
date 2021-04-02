@@ -1,0 +1,6 @@
+Question 1&2: Select the employee named Mayumi Schueller//Comment your code.
+
+--pull all info for the employee named 'Mayumi Shueller'
+SELECT * FROM employees WHERE first_name = 'Mayumi' AND last_name = 'Schueller';
+      --or, in a fancy fashion
+SELECT * FROM employees WHERE concat( first_name, ' ', last_name) = 'Mayumi Schueller'
