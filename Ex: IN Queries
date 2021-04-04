@@ -1,0 +1,23 @@
+/*
+* DB: Store
+* Table: orders
+* Question: How many orders were made by customer 7888, 1082, 12808, 9623
+*/
+
+--Count the unique orders in the orders table
+SELECT count(orderid) from orders
+--That were made by customers with the ids 7888, 1082, 12808, 9623
+WHERE customerid IN (7888, 1082, 12808, 9623)
+--Answer:6
+
+/*
+* DB: World
+* Table: city
+* Question: How many cities are in the district of Zuid-Holland, Noord-Brabant and Utrecht?
+*/
+
+--Return the count of cities
+SELECT count(id) FROM city
+--That fall within the districts Zuid-Holland, Noord-Brabant and Utrecht
+where district IN ('Zuid-Holland', 'Noord-Brabant', 'Utrecht')
+--Answer:12
