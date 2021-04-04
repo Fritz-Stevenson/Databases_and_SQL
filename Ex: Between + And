@@ -1,0 +1,17 @@
+-- Who between the ages of 30 and 50 has an income less than 50 000?
+-- (include 30 and 50 in the results)
+
+--select all fields
+SELECT * from customers
+--For customers between the ages of 30 and 50 who make less than 50,000
+Where income < 50000 and age BETWEEN 30 and 50
+--2362 individuals
+
+
+-- What is the average income between the ages of 20 and 50? (Including 20 and 50)
+
+--Find out the average income
+SELECT avg(income) from customers
+--For customers between the ages of 30 and 50
+Where age BETWEEN 20 and 50
+--Answer: 59361.92
