@@ -1,0 +1,30 @@
+/*
+* DB: Store
+* Table: Customers
+* Question: 
+* Select people either under 30 or over 50 with an income above 50000
+* Include people that are 50
+* that are from either Japan or Australia
+*/
+--work
+--Select all info from customers from the customer table
+SELECT * FROM "public"."customers"
+--Who make more than 50,000 and are either younger than 30 or older than 50 years old.
+WHERE (income > 50000 and (age >50 OR age < 30))
+--Also include customers from Japan or Australia who are 50 years old
+ or (age = 50 and (country = 'Japan' or country = 'Australia'))
+ --count: 8514 customers
+
+
+/*
+* DB: Store
+* Table: Orders
+* Question: 
+* What was our total sales in June of 2004 for orders over 100 dollars?
+*/
+
+--Find the sum of the total dollar amount from the orders table
+select sum(totalamount) from "public"."orders"
+--for orders whose total is above 100 and dated June 2004
+Where orderdate > '2004-05-31' AND orderdate < '2004-07-01' and totalamount > 100
+--Answer/sum = 205,226.06
