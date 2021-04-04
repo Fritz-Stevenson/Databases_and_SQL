@@ -1,0 +1,33 @@
+/*
+* DB: Store
+* Table: customers
+* Question: adjust the following query to display the null values as "No Address"
+*/
+/*
+*Select all address2 fields from the customer table
+*and replace Null with 'no address'
+*/
+SELECT coalesce(address2, 'no address') as "new address2"
+FROM customers
+
+
+/*
+* DB: Store
+* Table: customers
+* Question: Fix the following query to apply proper 3VL
+*/
+
+SELECT *
+FROM customers
+--It appears all rows have Null fields for the address 2 column, so I assume this is correct.
+WHERE address2 IS null;
+
+
+/*
+* DB: Store
+* Table: customers
+* Question: Fix the following query to apply proper 3VL
+*/
+--this was a redundant query that damaged readabilty
+SELECT coalesce(lastName, 'Empty'), * from customers
+wHERE age IS null;
