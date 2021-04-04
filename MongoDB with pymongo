@@ -1,0 +1,34 @@
+import pymongo
+# create the mongodb object with pymongo
+myclient = pymongo.MongoClient("mongodb://localhost:5354")
+# create a database
+mydb = myclient["mydatabase"]
+
+# check if there is a mongodb object and that databases are populating correctly
+db_list = myclient.list_database_names()
+if mydb:
+    print('I\'m here!')
+if 'mydatabase' in db_list:
+    print('The database too')
+# set up collections database
+my_profiles = mydb['profiles']
+# insert a single object into collections
+new_profile_insertion = my_profiles.insert_one({'Name': 'Fritz', 'Level': 0, 'HSK_Points': 0})
+# format for inserting multiple objects
+new_profile_insertion2 = my_profiles.insert_many([{'Name': 'Fritz', 'Level': 0, 'HSK_Points': 0},
+                                                  {'Name': 'Joshua the Wise', 'Level': 9120, 'HSK_Points': 10000000}])
+# set up custom ids which are like keys for the objects (express recall?)
+new_profile_insertion3 = my_profiles.insert_many([{'_id': 'blue', 'Name': 'Fritz', 'Level': 0, 'HSK_Points': 140},
+                                                  {'_id': 'gold', 'Name': 'Joshua the Wise', 'Level': 9120, 'HSK_Points': 10000000},
+                                                  {'_id': 'blue', 'Name': 'Todd the Chump', 'Level': 0, 'HSK_Points': 2}])
+# fetch custom ids
+print(new_profile_insertion3.inserted_ids)
+
+# find keyword is like SELECT in sql find_one is lazy matching
+x = my_profiles.find_one({}, {'Level':0})
+print(x)  # returns Fritz despite 2 objects with level 0
+# or for greedy matching
+x = my_profiles.find({}, {'Level':0})
+for i in x:
+    print(i)  # returns all matches' level fields
+# find() or find_one() is like the * operator in SQL SELECT statements
