@@ -1,0 +1,27 @@
+/*
+* DB: Employees
+* Table: employees
+* Question: Sort employees by first name ascending and last name descending
+*/
+/*
+* DB: Employees
+* Table: employees
+* Question: Sort employees by age
+*/
+
+--Return all information from employees in the employees table 
+select * from employees
+--And order the rows by the age of the employee
+order by age(birth_date)
+
+/*
+* DB: Employees
+* Table: employees
+* Question: Sort employees who's name starts with a "k" by hire_date
+*/
+--Return all information from employees in the employees table 
+select * from employees
+--For employees whose first name starts with K
+where first_name like 'K%'\
+--And ordered by hire_date
+order by hire_date
