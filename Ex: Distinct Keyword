@@ -1,0 +1,31 @@
+/*
+* DB: Employees
+* Table: titles
+* Question: What unique titles do we have?
+*/
+
+--find the number of unique titles in the titles table
+select count(distinct title) from titles
+--Answer:7
+
+/*
+* DB: Employees
+* Table: employees
+* Question: How many unique birth dates are there?
+*/
+
+--find the number of birth dates in the employees table
+select count(distinct birth_date) from employees
+--Answer: 4750
+
+
+/*
+* DB: World
+* Table: country
+* Question: Can I get a list of distinct life expectancy ages
+* Make sure there are no nulls
+*/
+
+--Find the number of unique life expectancies from countries in the country table
+SELECT count(DISTINCT lifeexpectancy) FROM country
+--Answer:160
