@@ -1,0 +1,54 @@
+/*
+* DB: Employees
+* Table: employees
+* Question: Get me all the employees above 60, use the appropriate date functions
+*/
+
+--select all information from rows in the employees table
+SELECT * FROM employees
+--for employees who are older than 60
+WHERE age(birth_date) > interval '60 years'
+
+/*
+* DB: Employees
+* Table: employees
+* Question: How many employees where hired in February?
+*/
+--select all information from rows in the employees table
+SELECT * FROM employees
+--for employees who were hired in February
+WHERE extract(MONTH From hire_date)= '02'
+
+/*
+* DB: Employees
+* Table: employees
+* Question: How many employees were born in november?
+*/
+--select all information from rows in the employees table
+SELECT count(emp_no) FROM employees
+--for employees who were born in November
+WHERE extract(MONTH From birth_date)= '11'
+--Answer: 24500
+
+/*
+* DB: Employees
+* Table: employees
+* Question: Who is the oldest employee? (Use the analytical function MAX)
+*/
+
+--select the first name from rows in the employees table
+select first_name from employees
+--where the age of the employee is as old as the max age of the table
+where (age(birth_date) = (SELECT max(age(birth_date)) FROM employees))
+
+/*
+* DB: Store
+* Table: orders
+* Question: How many orders were made in January 2004?
+*/
+
+--find the number of orders from the orders table
+SELECT count(orderid) from orders
+--that were submitted in the month of January
+where extract(Year from orderdate) = '2004' and EXTRACT(month from orderdate) = '01'
+--answer:1000
