@@ -1,0 +1,39 @@
+/*
+* DB: Store
+* Table: orders
+* Question: Get all orders from customers who live in Ohio (OH), New York (NY) or Oregon (OR) state
+* ordered by orderid
+*/
+--return the order id and the firstname
+Select o.orderid, c.firstname from orders as o
+--In an inner join between the orders table and customers.table based on the shared customerid field
+inner join customers as c on c.customerid = o.customerid
+--for all orders where the customers state was Oregon, Ohio, or New York
+where  c.state in ('OR', 'OH', 'NY')
+--And ordered by order id
+order by o.orderid
+
+
+/*
+* DB: Store
+* Table: products
+* Question: Show me the inventory for each product
+*/
+--return quantity in stock for all products
+Select DISTINCT p.prod_id, i.quan_in_stock  from inventory as i
+--Obtained using an inner join between the inventory and products tables
+inner join products as p on i.prod_id = p.prod_id
+--And ordered by product id
+order by p.prod_id
+
+/*
+* DB: Employees
+* Table: employees
+* Question: Show me for each employee which department they work in
+*/
+--Select the employee number and the name of the department they work in,
+select e.emp_no, d.dept_name from dept_emp as e
+--Through an inner join matching dept_no field between dept_emp and departments tables 
+inner join departments as d on e.dept_no = d.dept_no
+--And ordered by employee number
+order by e.emp_no
