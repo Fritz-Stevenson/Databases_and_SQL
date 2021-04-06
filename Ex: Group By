@@ -1,0 +1,31 @@
+/*
+*  How many people were hired on any given hire date?
+*  Database: Employees
+*  Table: Employees
+*/
+--Return the hire dates and counts of employees 
+select hire_date, count(emp_no) from employees
+--That are grouped and ordered by their hire date
+group by hire_date order by hire_date
+
+
+/*
+*   Show me all the employees, hired after 1991 and count the amount of positions they've had
+*  Database: Employees
+*/
+select e.first_name, count(distinct d.dept_no) from employees as e
+inner join dept_emp as d using(emp_no)
+where hire_date > cast('1991-01-01' as date)
+group by e.first_name
+order by e.first_name"public"."dept_emp"."dept_no"
+
+
+
+/*
+*  Show me all the employees that work in the department development and the from and to date.
+*  Database: Employees
+*/
+select e.first_name, d.from_date, d.to_date, departments.dept_name from employees as e
+inner join dept_emp as d using(emp_no)
+inner join departments using(dept_no)
+where d.dept_no = 'd005'
