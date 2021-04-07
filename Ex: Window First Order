@@ -1,0 +1,20 @@
+/*
+*Display the first order and order amount for each distinct customer who has ordered
+*/
+
+--Return a single row per distinct customer in the orders table. Include the First value of the totalamount field
+select Distinct customerid, first_value(totalamount) over (
+--first value is within the customerid group
+    partition by customerid
+--and first within the order of orderdates
+    order by orderdate
+--designate range as preceding and following to capture all rows within partition
+    range between UNBOUNDED PRECEDING and UNBOUNDED FOLLOWING) as first_order_amount,
+--repeat window function for order date to match up along the distinct customer row.
+first_value(orderdate) over (
+    partition by customerid
+    order by orderdate
+    range between UNBOUNDED PRECEDING and UNBOUNDED FOLLOWING) as first_order  
+from orders
+--order the rows by customerid for readability
+order by customerid
