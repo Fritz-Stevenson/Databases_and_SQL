@@ -1,0 +1,21 @@
+/*
+*Show the date for when the last salary for each employee was.
+*/
+--Return employee information in a single row with a window function of the last raise date
+select Distinct s.emp_no, LAST_VALUE(s.from_date)  Over (
+--for groups separated by employee
+    partition by s.emp_no
+--and ordered by from_date so that the last value is the most recent
+    order by s.from_date
+--use a range so that all prior rows are captured, else there will be duplicate rows despite the DISTINCT keyword
+    range between UNBOUNDED PRECEDING and UNBOUNDED FOLLOWING
+    )as date_of_last_raise,
+--repeat the window for the last value of each employees salary so the most recent salary is displayed as well.
+LAST_VALUE(s.salary) Over (
+    partition by s.emp_no
+    order by s.from_date
+    range between UNBOUNDED PRECEDING and UNBOUNDED FOLLOWING
+) as last_salary
+from salaries as s
+--order by employee for readability.
+order by s.emp_no
