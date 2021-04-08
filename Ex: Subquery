@@ -17,3 +17,11 @@ where state in ('OR','NY', 'OH')
 * Table: employees
 * Question: Filter employees who have emp_no 110183 as a manager
 */
+--base of all information from all rows on the employees table
+select * from employees as e
+--joined with the dept_emp table to access dept_no for each employee
+join (select de1.dept_no, de1.emp_no, man.emp_no as manager from dept_emp as de1
+--joined with a subquery that matches with the department managed by the manager of interest, no. 110183
+    join(select dept_no, emp_no  from dept_manager
+        where emp_no ='110183' ) as man using(dept_no)
+) as de using(emp_no);
