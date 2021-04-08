@@ -1,0 +1,22 @@
+/*
+*  Create a view "90-95" that:
+*  Shows me all the employees, hired between 1990 and 1995
+*  Database: Employees
+*/
+CREATE or Replace VIEW "90-95" AS
+select * from employees 
+where hire_date > '1989-12-31' and hire_date < '1996-01-01'
+order by hire_date;
+
+select * from "90-95"
+
+/*
+*  Create a view "bigbucks" that:
+*  Shows me all employees that have ever had a salary over 80000
+*  Database: Employees
+*/
+Create or replace view "bigbucks" as 
+select distinct s.emp_no  from salaries as s
+where s.salary > 80000;
+
+select * from bigbucks
