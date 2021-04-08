@@ -1,0 +1,9 @@
+/*
+* DB: Store
+* Table: products
+* Question: Show NULL when the product is not on special (0)
+*/
+select NULLIF(special,0) as special
+from products
+--Proof that everything comes before nothing
+order by special
