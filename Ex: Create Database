@@ -1,0 +1,47 @@
+--reliant on uuid install with:
+CREATE EXTENSION if not exists "uuid-ossp";
+--uuid and its functions should now be able to be called
+
+create domain Rating as SMALLINT check(
+VALUE >0 and VALUE<=5);
+
+--The following tables will have to be installed one after another as dependencies may exist.
+
+create table feedback(
+studentid UUID PRImary key default uuid_generate_v4(),
+rating Rating not null,
+feedback text);
+
+create table student(
+student_id UUID Primary KEY Default uuid_generate_v4(),
+first_name varchar (30) not null,
+last_name varchar (30) not null,
+email varchar (50) not null,
+date_of_birth date not null);
+
+Create table subject(
+subject_id UUID Primary Key default uuid_generate_v4(),
+subject varchar(30) not null,
+description text);
+
+create table teacher(
+teacher_id UUID Primary Key default uuid_generate_v4(),
+first_name varchar(20) not null,
+last_name varchar(20) not null,
+email email not null,
+date_of_birth date not null) ;
+
+create table course(
+course_id UUID primary KEY Default uuid_generate_v4(),
+course_name varchar(40) not null,
+description text,
+subject_id UUID REFERENCES subject(subject_id),
+teacher_id UUID references teacher(teacher_id),
+feedback feedback[]
+);
+
+create table enrollment(
+course_id REFERENCES course(course_id),
+student_id references student(student_id),
+enrollment_date date not null
+)
