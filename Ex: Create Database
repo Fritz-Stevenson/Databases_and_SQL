@@ -41,7 +41,16 @@ feedback feedback[]
 );
 
 create table enrollment(
-course_id REFERENCES course(course_id),
-student_id references student(student_id),
+course_id UUID REFERENCES course(course_id),
+student_id UUID references student(student_id),
 enrollment_date date not null
-)
+);
+-- Then input some data into the table that can be manipulated (Which should not be run twice else duplication):
+insert into subject(subject, description) values('SQL', 'A database language to query and manipulate relational data.')
+insert into subject(subject, description) values('Python', 'Object based programming language which interpretes C')
+insert into teacher(date_of_birth, email, first_name, last_name) values('12-21-20', 'something@address.co', 'Fritz', 'Totallyateacher');
+insert into course (course_name, description, subject_id,teacher_id) values('Beginnering SQL From Me, the Master', 'A really very thorough ride through these data landscapes', 1,1);
+insert into student (date_of_birth, email, first_name, last_name) values('12-21-20', 'somethingelse@edu.edu', 'Fritz', 'GreatLearner');
+
+--playing around with subquery inserts
+INSERT INTO enrollment(student_id, course_id, enrollment_date) Values((Select student_id from student where first_name = 'Fritz'), (select course_id from course where subject_id =1), now())
