@@ -1,0 +1,16 @@
+/* 
+Task using a wildfire database from kaggle (https://www.kaggle.com/rtatman/188-million-us-wildfires)
+We are wrangling multiple columns across inconsistent data types to display the time from fire discovery to fire containment, in hours.
+We are then taking that column and dividing Fire_Size with it to create a custom average burn rate column. 
+*/
+SELECT  *, c.DTC_Burn_Time, (c.FIRE_SIZE/c.DTC_Burn_Time) as DTC_AVG_Burn_Rate
+FROM Fires as f
+join	(SELECT (((CONT_DOY-DISCOVERY_DOY)*24) + 
+	( 
+	 CAST(SUBSTRING(CONT_TIME,1,2) as INT)-
+	 CAST(SUBSTRING(DISCOVERY_TIME,1,2) as INT)
+	)
+	) as DTC_Burn_Time, FIRE_SIZE, OBJECTID 
+	from Fires
+	WHERE STATE = 'OR' AND DTC_Burn_Time > 0) as c on c.OBJECTID=f.OBJECTID 
+;
