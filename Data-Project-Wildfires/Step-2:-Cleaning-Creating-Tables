@@ -1,0 +1,35 @@
+/* 
+The data is messy. There are a lot of extraneous columns. Numerical and text columns for counties without reference to other tables, and many columns that make it harder for digestion of data. 
+This script will create one full analysis table for Oregon as well as another table for easy digestion.
+
+SQLite DB
+*/
+
+CREATE TABLE Full_Oregon_Fires AS 
+SELECT  f.OBJECTID, f.FIRE_YEAR, f.DISCOVERY_DOY, f.STAT_CAUSE_DESCR,  
+f.FIPS_NAME, f.FIRE_SIZE, f.FIRE_SIZE_CLASS, c.DTC_Burn_Time, (c.FIRE_SIZE/c.DTC_Burn_Time) as DTC_AVG_Burn_Rate, f.FIRE_NAME,
+f.NWCG_REPORTING_UNIT_NAME, f.LATITUDE, f.LONGITUDE, f.OWNER_DESCR
+FROM Fires as f
+join	(SELECT (((CONT_DOY-DISCOVERY_DOY)*24) + 
+	( 
+	 CAST(SUBSTRING(CONT_TIME,1,2) as INT)-
+	 CAST(SUBSTRING(DISCOVERY_TIME,1,2) as INT)
+	)
+	) as DTC_Burn_Time, FIRE_SIZE, OBJECTID 
+	from Fires
+	WHERE STATE = 'OR' AND DTC_Burn_Time > 0) as c on c.OBJECTID=f.OBJECTID 
+;
+
+CREATE TABLE view_Oregon_Fires AS
+SELECT f.FIRE_YEAR, f.DISCOVERY_DOY, f.FIRE_NAME,  f.STAT_CAUSE_DESCR, f.FIRE_SIZE, f.FIRE_SIZE_CLASS, 
+f.FIPS_NAME, c.DTC_Burn_Time, (c.FIRE_SIZE/c.DTC_Burn_Time) as DTC_AVG_Burn_Rate
+FROM Fires as f
+join	(SELECT (((CONT_DOY-DISCOVERY_DOY)*24) + 
+	( 
+	 CAST(SUBSTRING(CONT_TIME,1,2) as INT)-
+	 CAST(SUBSTRING(DISCOVERY_TIME,1,2) as INT)
+	)
+	) as DTC_Burn_Time, FIRE_SIZE, OBJECTID 
+	from Fires
+	WHERE STATE = 'OR' AND DTC_Burn_Time > 0) as c on c.OBJECTID=f.OBJECTID
+; 
