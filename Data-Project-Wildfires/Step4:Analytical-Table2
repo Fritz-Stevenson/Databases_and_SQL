@@ -1,0 +1,6 @@
+/*
+Another important factor to take into consideration is how much of a factor fire cause is. Are human caused fires the driver in the matter or is it independent?
+*/
+CREATE TABLE yearly_fire_cause AS
+SELECT FIRE_YEAR, STAT_CAUSE_DESCR, ROUND(SUM(FIRE_SIZE)/640, 2) AS sum_sqmi_burned from Full_Oregon_Fires fof
+GROUP BY FIRE_YEAR, STAT_CAUSE_DESCR; 
