@@ -1,0 +1,62 @@
+--The course gave conflicting information regarding the longitude
+
+SELECT * from vehicle_location_histories
+join (select id as ride_id, rider_id from rides) as r on r.ride_id = vehicle_location_histories.ride_id
+join (select id as rider_id, "name" as full_name from users) as u on u.rider_id = r.rider_id
+where long between 40.5 and 40.6
+and lat between -74.997 and -74.9968
+and date(timestamp) = '2020-06-23';
+ 
+--possible rides dwindled to 423
+
+--Was it a driver?
+SELECT distinct u.full_name from vehicle_location_histories
+join (select id as ride_id, rider_id, vehicle_id from rides) as r on r.ride_id = vehicle_location_histories.ride_id
+join (select * from vehicles) as v on v.id = r.vehicle_id
+join (select id as rider_id, "name" as full_name from users) as u on u.rider_id = v.owner_id
+where long between 40.5 and 40.6
+and lat between -74.997 and -74.9968
+and date(timestamp) = '2020-06-23';
+
+--80 distinct drivers, but no likely suspects.
+
+--It was implausible to me that it would be a driver anyways: an idling car, confused user/employee of keiko corp and the question of access to the facility.
+
+--How about the riders? Let's create a view of the unique riders who visited keiko corp's location.
+create view suspect_riders 
+as (
+SELECT distinct u.full_name from vehicle_location_histories
+join (select id as ride_id, rider_id from rides) as r on r.ride_id = vehicle_location_histories.ride_id
+join (select id as rider_id, "name" as full_name from users) as u on u.rider_id = r.rider_id
+where long between 40.5 and 40.6 
+and lat between -74.997 and -74.9968
+and date(timestamp) = '2020-06-23');
+
+--down to 103 distinct riders.
+
+--It was more likely to be an employee. Next well dblink the employees names from the employees table in the movr_employees database:
+create extension dblink;
+create table employees_names
+as
+select * from dblink('host=localhost
+                     user = postgres
+                     password = password
+                     dbname=movr_employees',
+                'select first_name, last_name from employees') as t1 (first_name text,
+                                                                        last_name text);
+
+--was it an employee? 
+
+select concat(en.first_name, ' ', en.last_name) as full_name from employees_names as en
+join suspect_riders as s on s.full_name = en.concat;
+
+--It was not by the courses standards.
+
+
+--Another implausible portion of the solution was that it was someone related to the employee. An employee has access to the facility and presumably clearance.
+--How would an employee convince there family to steal data from them? either way the answer is accessible through:
+
+select en.first_name as employee_first_name, en.last_name as employee_last_name, s.first_name as rider_first_name, s.last_name as rider_last_name from employees_names as en
+join (select split_part(full_name, ' ', 1) as first_name, split_part(full_name, ' ', 2) as last_name from suspect_riders) as s on s.last_name = en.last_name
+
+--15 family members of employees and 1 confesses.

@@ -1,0 +1,61 @@
+--First order of business: understand the data structure of the databases, especially the Movr database containing company information.
+--A few databases of import:
+
+-- rides table has the most foreign keys with intersections with the vehicles, users, location histories tables etc.
+select * from rides 
+limit(10);
+
+--Users is a table which has a name field, key to cross-referencing employees,
+
+select * from users 
+limit(10);
+
+--Where the vehicles are going is critical. The perpetrator would have have gone to the Movr headquarters, then presumably gone home or to another place of importance.
+--using the vehicle_location_histories, we can check all vehicles which have gone to the hq long,lat within a certain timeframe
+
+SELECT * from vehicle_location_histories
+where long between 40.5 and 40.8 
+and lat between -74.997 and -74.9968
+and date(timestamp) = '2020-06-23';
+--however this returns 889 results, a dataset that will need to be filtered further.
+
+--Because the theif must have been an employee (the course stated this at the beginning) I am dumping a table from the Movr_employee database for a join to filter users.
+
+--After importing the employees table, I have selected all the distinct employee names using concat for consisten formatting
+select distinct concat(e.first_name, ' ', e.last_name) as full_name, 
+--these fields are necessary for joins
+users.id, rides.id as ride_id,
+--I included the following fields for possible where comparisons
+vlh.long, vlh.lat, vlh.timestamp
+from employees as e
+--filtering down to users who are also employees
+join users on users.name = concat(e.first_name, ' ', e.last_name)
+--filtering rides where the user.id belongs to an employee
+join rides on rides.rider_id = users.id
+--and including vehicle location histories for finer grain data attached to these ride ids
+
+join vehicle_location_histories as vlh on vlh.ride_id = rides.id;
+
+/*
+*The following constraints for Movr facility locations were too strict and resulted in an empty set
+*where (vlh.long between 40.5 and 40.8 and vlh.lat between -74.997 and -74.9968)
+*To circumvent this, I searched for any users who were employees who used the service and filtered the results manually
+*/
+
+--The results of our search are in, Only one employee used Movr in the area on the 23rd of June 2020: Patricia Melton, our prime suspect:
+--Their closest destination was 1 mile from the headquarters but this is a reasonable distance to walk.
+
+Select * from users 
+where "name" = 'Patricia Melton';
+
+--Freeze his credit card, get a search warrant for his address and continue the investigation.
+--It appears he was not the owner of the vehicle: he may have had an accomplice.
+
+--The owner of the vehicle is Caitlin Mccarthy, who took him on 5 rides that day
+
+--Suspect Information in the required format:
+
+select distinct vehicles.id as vehicle_id, users.name, users.address, status, current_location from vehicles
+right join users on users.id = vehicles.owner_id
+where vehicles.id = 'dccdf95a-8915-40cb-bbf8-b56ce0fd7c94' or users.name = 'Patricia Melton'
+
