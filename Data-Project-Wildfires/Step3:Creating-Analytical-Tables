@@ -1,0 +1,11 @@
+/*
+Creation of a yearly analysis table that can be used for data visualization of yearly burn statistics.
+*/
+CREATE TABLE yearly_analysis as
+SELECT FIRE_YEAR, 
+	ROUND(SUM(FIRE_SIZE)/640,2) as sqmi_Burned, 
+	ROUND((SUM(FIRE_SIZE)/30000000)*100,2) as est_percentage_burned, 
+	ROUND(AVG(DTC_Burn_Time),2) as 'Yearly_AVG_Burn_Time(HR)',
+	ROUND(AVG(DTC_AVG_Burn_Rate),2) as 'Yearly_AVG_Burn_Rate(acre/hr)' 
+FROM Full_Oregon_Fires fof
+GROUP BY FIRE_YEAR;
