@@ -1,0 +1,303 @@
+"FIRE_YEAR","STAT_CAUSE_DESCR","sum_sqmi_burned"
+1992,Arson,4.15
+1992,Campfire,1.34
+1992,Children,50.86
+1992,Debris Burning,16.48
+1992,Equipment Use,17.77
+1992,Fireworks,0.24
+1992,Lightning,73.25
+1992,Miscellaneous,8.19
+1992,Powerline,0.01
+1992,Railroad,2.17
+1992,Smoking,0.93
+1993,Arson,0.31
+1993,Campfire,1.47
+1993,Children,0.03
+1993,Debris Burning,5.11
+1993,Equipment Use,1.6
+1993,Fireworks,0.0
+1993,Lightning,7.04
+1993,Miscellaneous,0.57
+1993,Missing/Undefined,0.0
+1993,Powerline,0.0
+1993,Railroad,0.95
+1993,Smoking,0.45
+1994,Arson,8.62
+1994,Campfire,22.96
+1994,Children,0.01
+1994,Debris Burning,1.51
+1994,Equipment Use,0.93
+1994,Fireworks,1.57
+1994,Lightning,302.99
+1994,Miscellaneous,0.83
+1994,Missing/Undefined,0.0
+1994,Powerline,1.47
+1994,Railroad,0.52
+1994,Smoking,0.42
+1994,Structure,52.33
+1995,Arson,2.0
+1995,Campfire,1.89
+1995,Children,0.01
+1995,Debris Burning,5.96
+1995,Equipment Use,7.87
+1995,Fireworks,0.0
+1995,Lightning,64.77
+1995,Miscellaneous,0.61
+1995,Missing/Undefined,0.47
+1995,Powerline,0.01
+1995,Railroad,0.04
+1995,Smoking,9.28
+1996,Arson,0.99
+1996,Campfire,0.66
+1996,Children,3.72
+1996,Debris Burning,2.13
+1996,Equipment Use,186.79
+1996,Fireworks,0.04
+1996,Lightning,666.26
+1996,Miscellaneous,41.59
+1996,Powerline,5.4
+1996,Railroad,0.01
+1996,Smoking,6.61
+1996,Structure,0.16
+1997,Arson,0.08
+1997,Campfire,0.25
+1997,Children,0.0
+1997,Debris Burning,2.97
+1997,Equipment Use,1.22
+1997,Fireworks,0.06
+1997,Lightning,26.52
+1997,Miscellaneous,2.35
+1997,Missing/Undefined,0.02
+1997,Powerline,0.94
+1997,Railroad,1.64
+1997,Smoking,0.27
+1998,Arson,2.33
+1998,Campfire,1.42
+1998,Children,1.42
+1998,Debris Burning,2.85
+1998,Equipment Use,37.4
+1998,Fireworks,0.11
+1998,Lightning,47.87
+1998,Miscellaneous,24.0
+1998,Missing/Undefined,0.0
+1998,Powerline,0.01
+1998,Railroad,4.28
+1998,Smoking,2.01
+1998,Structure,0.0
+1999,Arson,6.49
+1999,Campfire,13.97
+1999,Children,0.01
+1999,Debris Burning,19.06
+1999,Equipment Use,0.35
+1999,Fireworks,0.04
+1999,Lightning,43.59
+1999,Miscellaneous,12.63
+1999,Missing/Undefined,0.96
+1999,Powerline,0.15
+1999,Railroad,0.23
+1999,Smoking,0.59
+2000,Arson,1.05
+2000,Campfire,2.82
+2000,Children,0.92
+2000,Debris Burning,3.6
+2000,Equipment Use,18.56
+2000,Fireworks,0.32
+2000,Lightning,470.09
+2000,Miscellaneous,45.41
+2000,Missing/Undefined,0.0
+2000,Powerline,0.1
+2000,Railroad,6.98
+2000,Smoking,0.27
+2000,Structure,0.18
+2001,Arson,0.07
+2001,Campfire,0.49
+2001,Children,0.03
+2001,Debris Burning,8.34
+2001,Equipment Use,5.11
+2001,Fireworks,0.58
+2001,Lightning,495.1
+2001,Miscellaneous,10.06
+2001,Missing/Undefined,0.01
+2001,Powerline,0.05
+2001,Railroad,0.32
+2001,Smoking,0.27
+2002,Arson,0.38
+2002,Campfire,3.74
+2002,Children,0.19
+2002,Debris Burning,1.11
+2002,Equipment Use,1.3
+2002,Fireworks,0.46
+2002,Lightning,1488.49
+2002,Miscellaneous,29.14
+2002,Missing/Undefined,0.0
+2002,Powerline,3.05
+2002,Railroad,4.64
+2002,Smoking,0.03
+2002,Structure,0.0
+2003,Arson,0.64
+2003,Campfire,0.19
+2003,Children,33.03
+2003,Debris Burning,0.17
+2003,Equipment Use,1.7
+2003,Fireworks,0.9
+2003,Lightning,185.16
+2003,Miscellaneous,29.04
+2003,Missing/Undefined,0.63
+2003,Powerline,0.06
+2003,Railroad,1.82
+2003,Smoking,0.78
+2003,Structure,0.0
+2004,Arson,3.87
+2004,Campfire,0.12
+2004,Children,21.16
+2004,Debris Burning,0.01
+2004,Equipment Use,0.93
+2004,Fireworks,0.01
+2004,Lightning,10.05
+2004,Miscellaneous,8.15
+2004,Missing/Undefined,1.26
+2004,Powerline,0.02
+2004,Railroad,0.0
+2004,Smoking,0.03
+2004,Structure,0.0
+2005,Arson,17.67
+2005,Campfire,0.07
+2005,Children,0.0
+2005,Debris Burning,4.96
+2005,Equipment Use,4.65
+2005,Fireworks,0.06
+2005,Lightning,140.81
+2005,Miscellaneous,8.44
+2005,Missing/Undefined,2.42
+2005,Powerline,0.0
+2005,Railroad,0.16
+2005,Smoking,0.03
+2005,Structure,0.0
+2006,Arson,83.38
+2006,Campfire,0.44
+2006,Children,0.05
+2006,Debris Burning,9.6
+2006,Equipment Use,0.36
+2006,Fireworks,0.04
+2006,Lightning,667.98
+2006,Miscellaneous,10.27
+2006,Missing/Undefined,0.0
+2006,Powerline,2.93
+2006,Railroad,0.09
+2006,Smoking,0.08
+2006,Structure,0.01
+2007,Arson,0.29
+2007,Campfire,0.58
+2007,Children,0.01
+2007,Debris Burning,0.55
+2007,Equipment Use,18.25
+2007,Fireworks,0.59
+2007,Lightning,707.73
+2007,Miscellaneous,106.66
+2007,Missing/Undefined,1.43
+2007,Powerline,0.0
+2007,Railroad,0.0
+2007,Smoking,0.27
+2007,Structure,0.01
+2008,Arson,0.47
+2008,Campfire,0.46
+2008,Children,0.03
+2008,Debris Burning,0.5
+2008,Equipment Use,0.7
+2008,Fireworks,0.02
+2008,Lightning,349.32
+2008,Miscellaneous,12.83
+2008,Missing/Undefined,6.93
+2008,Powerline,0.0
+2008,Railroad,0.0
+2008,Smoking,0.03
+2008,Structure,0.0
+2009,Arson,0.17
+2009,Campfire,2.44
+2009,Children,0.0
+2009,Debris Burning,1.01
+2009,Equipment Use,0.12
+2009,Fireworks,0.01
+2009,Lightning,104.34
+2009,Miscellaneous,19.01
+2009,Missing/Undefined,2.02
+2009,Powerline,0.11
+2009,Smoking,0.01
+2010,Arson,0.18
+2010,Campfire,0.11
+2010,Children,0.0
+2010,Debris Burning,0.05
+2010,Equipment Use,9.29
+2010,Fireworks,0.01
+2010,Lightning,98.0
+2010,Miscellaneous,27.11
+2010,Missing/Undefined,0.48
+2010,Powerline,0.0
+2010,Railroad,0.38
+2010,Smoking,0.06
+2010,Structure,0.0
+2011,Arson,0.16
+2011,Campfire,0.46
+2011,Children,0.28
+2011,Debris Burning,2.12
+2011,Equipment Use,0.12
+2011,Fireworks,0.03
+2011,Lightning,298.33
+2011,Miscellaneous,25.66
+2011,Missing/Undefined,8.3
+2011,Powerline,0.1
+2011,Railroad,0.0
+2011,Smoking,0.01
+2011,Structure,0.0
+2012,Arson,10.46
+2012,Campfire,0.43
+2012,Children,0.02
+2012,Debris Burning,2.52
+2012,Equipment Use,32.59
+2012,Fireworks,0.11
+2012,Lightning,2328.15
+2012,Miscellaneous,6.97
+2012,Missing/Undefined,10.68
+2012,Powerline,0.02
+2012,Railroad,0.1
+2012,Smoking,0.08
+2012,Structure,0.01
+2013,Arson,82.93
+2013,Campfire,0.14
+2013,Children,0.0
+2013,Debris Burning,0.78
+2013,Equipment Use,1.44
+2013,Fireworks,0.25
+2013,Lightning,311.84
+2013,Miscellaneous,8.12
+2013,Missing/Undefined,3.7
+2013,Powerline,0.0
+2013,Railroad,1.18
+2013,Smoking,0.11
+2013,Structure,0.0
+2014,Arson,19.31
+2014,Campfire,2.15
+2014,Children,0.15
+2014,Debris Burning,0.89
+2014,Equipment Use,57.62
+2014,Fireworks,0.01
+2014,Lightning,1314.4
+2014,Miscellaneous,24.67
+2014,Missing/Undefined,9.53
+2014,Powerline,0.42
+2014,Railroad,0.01
+2014,Smoking,0.02
+2014,Structure,0.41
+2015,Arson,0.25
+2015,Campfire,32.84
+2015,Children,0.01
+2015,Debris Burning,4.9
+2015,Equipment Use,180.48
+2015,Fireworks,0.01
+2015,Lightning,499.28
+2015,Miscellaneous,6.48
+2015,Missing/Undefined,24.59
+2015,Powerline,0.05
+2015,Railroad,0.12
+2015,Smoking,0.18
+2015,Structure,0.06
