@@ -21,6 +21,8 @@ ALTER TABLE or_fires
 RENAME COLUMN "Fuel Model" TO fuel_model;
 ALTER TABLE or_fires
 RENAME COLUMN "Total Acres" TO total_acres;
+ALTER table or_fires
+RENAME "General Cause" TO general_cause; 
 
 SELECT * FROM or_fires
 LIMIT(5);
