@@ -22,3 +22,5 @@ set longitude =
 	+ cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',3) as float)/3600 
 	) end)
 ;
+update or_fires
+set report_date = cast(report_date as date);
