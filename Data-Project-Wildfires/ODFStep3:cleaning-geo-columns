@@ -1,0 +1,24 @@
+
+--This script aims to clean the latitude and longitude columns into a usable integer format.
+
+update or_fires 
+set latitude =
+		(case when latitude = '' then null
+		else
+--The previously garbled column data ie '46ï¿½ï¿½8'ï¿½53.45' to semi-colon separated values. Then the degrees are added to the degree minutes and seconds.
+		(cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',1) as float) 
+		+ cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',2) as float)/60 
+		+ cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',3) as float)/3600 
+		) end)
+;
+
+--The process is repeated for the longitude column. 
+update or_fires 
+set longitude = 
+	(case when longitude = '' then null
+	else
+	(cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',1) as float) 
+	+ cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',2) as float)/60 
+	+ cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',3) as float)/3600 
+	) end)
+;
