@@ -1,6 +1,5 @@
 --The columns needed to be standardized. Some needed to be dropped as they were not pertinent.
 
-Select database or_wildfires;
 ALTER TABLE or_fires
 DROP COLUMN district;
 ALTER TABLE or_fires
