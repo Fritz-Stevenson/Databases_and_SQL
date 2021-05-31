@@ -3,24 +3,34 @@
 
 update or_fires 
 set latitude =
-		(case when latitude = '' then null
-		else
+		(case when  
+			(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',1)='') or
+ 			(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',2) = '') then null
+		when split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',3) = '' then
+			(cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',1) as float8) 
+			+ cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',2) as float8)/60)
 --The previously garbled column data ie '46ï¿½ï¿½8'ï¿½53.45' to semi-colon separated values. Then the degrees are added to the degree minutes and seconds.
-		(cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',1) as float) 
-		+ cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',2) as float)/60 
-		+ cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',3) as float)/3600 
+		else
+			(cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',1) as float8) 
+			+ cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',2) as float8)/60 
+			+ cast(split_part(regexp_replace(latitude, '[ï¿½ï'']+',';','g'),';',3) as float8)/3600 
 		) end)
 ;
 
 --The process is repeated for the longitude column. 
 update or_fires 
 set longitude = 
-	(case when longitude = '' then null
-	else
-	(cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',1) as float) 
-	+ cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',2) as float)/60 
-	+ cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',3) as float)/3600 
-	) end)
+		(case when  
+			(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',1)='') or
+ 			(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',2) = '') then null
+		when split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',3) = '' then
+			(cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',1) as float8) 
+			+ cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',2) as float8)/60)
+		else
+			(cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',1) as float8) 
+			+ cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',2) as float8)/60 
+			+ cast(split_part(regexp_replace(longitude, '[ï¿½ï'']+',';','g'),';',3) as float8)/3600 
+		) end)
 ;
 update or_fires
 set report_date = cast(report_date as date);
