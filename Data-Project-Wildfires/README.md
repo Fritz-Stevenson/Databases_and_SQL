@@ -4,7 +4,7 @@
 
 **Data**
 The project uses data obtained from a kaggle dataset: https://www.kaggle.com/rtatman/188-million-us-wildfires
-I have also scraped data from the ODF (Oregon Department of Forestry) wildfire database.
+I have also scraped data from the ODF (Oregon Department of Forestry) wildfire database: https://apps.odf.oregon.gov/DIVISIONS/protection/fire_protection/fires/FIRESlist.asp
 
 **Features:**
 Each dataset has different features which allowed different analysis aims.
@@ -26,12 +26,23 @@ Kaggle features:
 * OWNER_DESCR = Name of primary owner or entity responsible for managing the land at the point of origin of the fire at the time of the incident.
 
 ODF Features:
+
 * fire_year = Calendar year in which the fire was discovered or confirmed to exist.
-* fire_name =  Name of the incident, from the fire report (primary) or ICS-209 report (secondary).
+* report_date = Date the fire was discovered
+* county = County name of the fire's origin.
 * latitude = Latitude (NAD83) for point location of the fire (decimal degrees).
 * longitude = Longitude (NAD83) for point location of the fire (decimal degrees).
-* fuel_model = Ecosystem environment used as fuel.
-* county = County name of the fire's origin.
-* report_date = Date and time the fire was discovered.
-* general_cause = Description of the (statistical) cause of the fire.
 * total_acres = Number of acres that were burned in the fire.
+* odf_acres = Number of Oregon Department of Forestry acres that were burned.
+* fuel_model = Ecosystem environment used as fuel.
+* fuel_descr = description of fuel_model key.
+* general_cause = Description of the (statistical) cause of the fire.
+* fire_name =  Name of the incident, from the fire report (primary) or ICS-209 report (secondary).
+* district = Firefighting district in charge of the containment.
+* unit = Firefighting unit in charge of the containment.
+* legal = Legal identifier for the wildfire incident.
+
+**Motivation:
+What are the historical trends of Oregon's wildfires? 
+How are the causes changing over time?
+How are the geographical and biological variables correlated?
