@@ -42,7 +42,7 @@ ODF Features:
 * unit = Firefighting unit in charge of the containment.
 * legal = Legal identifier for the wildfire incident.
 
-**Motivation:
+**Motivation:**
 What are the historical trends of Oregon's wildfires? 
 How are the causes changing over time?
 How are the geographical and biological variables correlated?
