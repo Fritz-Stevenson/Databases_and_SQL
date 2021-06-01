@@ -3,10 +3,12 @@
 ### This Project aims to analyze the historical trends of wildfires in Oregon.
 
 **Data**
+
 The project uses data obtained from a kaggle dataset: https://www.kaggle.com/rtatman/188-million-us-wildfires
 I have also scraped data from the ODF (Oregon Department of Forestry) wildfire database: https://apps.odf.oregon.gov/DIVISIONS/protection/fire_protection/fires/FIRESlist.asp
 
 **Features:**
+
 Each dataset has different features which allowed different analysis aims.
 
 Kaggle features:
@@ -43,6 +45,7 @@ ODF Features:
 * legal = Legal identifier for the wildfire incident.
 
 **Motivation:**
-What are the historical trends of Oregon's wildfires? 
-How are the causes changing over time?
-How are the geographical and biological variables correlated?
+
+* What are the historical trends of Oregon's wildfires? 
+* How are the causes changing over time?
+* How are the geographical and biological variables correlated?
