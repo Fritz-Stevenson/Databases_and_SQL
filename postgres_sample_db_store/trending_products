@@ -1,7 +1,7 @@
 --This query analyzes products by how much they are trending relative to the past through an avg_order_date_from_present field. 
---It also includes a sum product revenue field to guage relevance.
+--It also includes product revenue and order count fields to guage relevance.
 
-SELECT comp.prod_id,p.title, comp.w_avg_ddiff, pr.product_revenue FROM 
+SELECT comp.prod_id,p.title, comp.w_avg_ddiff, pr.product_revenue, pr.order_count FROM 
     --a simple average won't do, as a product line feature a quantity, and the day difference needs to be weighed by the quantity of a product purchased.
     (SELECT f.prod_id,(SUM(f.day_diff*f.quantity)/sum(quantity)) AS w_avg_ddiff FROM
         (SELECT o.orderlineid, DATE_PART('day',(SELECT MAX(orderdate)::TIMESTAMP FROM orderlines) - o.orderdate::TIMESTAMP) AS day_diff, o.quantity, o.prod_id
@@ -9,7 +9,7 @@ SELECT comp.prod_id,p.title, comp.w_avg_ddiff, pr.product_revenue FROM
     GROUP BY f.prod_id) AS comp 
 JOIN products AS p ON p.prod_id=comp.prod_id
 --joining the product revenue to provide a metric of relevance.
-JOIN (select p.prod_id, SUM(p.price*o.quantity) AS product_revenue FROM products AS p 
+JOIN (select p.prod_id, SUM(p.price*o.quantity) AS product_revenue, COUNT(*) AS order_count FROM products AS p 
       JOIN orderlines AS o ON o.prod_id=p.prod_id
       group by p.prod_id) AS pr ON pr.prod_id=comp.prod_id
 -The products at the top 
