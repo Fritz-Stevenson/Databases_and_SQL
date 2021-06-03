@@ -1,11 +1,23 @@
 --This query analyzes products by how much they are trending relative to the past through an avg_order_date_from_present field. 
 --It also includes a sum product revenue field to guage relevance.
-select ad.prod_id, pr.title, ad.avg_order_date_from_present, pr.product_revenue from 
-    (select o.prod_id, AVG(dd.day_diff) as avg_order_date_from_present  from orderlines as o
-    join(select o.orderlineid, date_part('day',(select max(orderdate)::timestamp from orderlines) - o.orderdate::timestamp) as day_diff
-        from orderlines as o) as dd on o.orderlineid = dd.orderlineid
-    group by o.prod_id) as ad
-join (select ol.prod_id, p.title, SUM(ol.quantity*p.price) as product_revenue from orderlines as ol
-    join products as p on p.prod_id=ol.prod_id 
-    Group by ol.prod_id, p.title) as pr on ad.prod_id=pr.prod_id
-ORder by ad.avg_order_date_from_present ASC;
+
+SELECT comp.prod_id,p.title, comp.w_avg_ddiff, pr.product_revenue FROM 
+    --a simple average won't do, as a product line feature a quantity, and the day difference needs to be weighed by the quantity of a product purchased.
+    (SELECT f.prod_id,(SUM(f.day_diff*f.quantity)/sum(quantity)) AS w_avg_ddiff FROM
+        (SELECT o.orderlineid, DATE_PART('day',(SELECT MAX(orderdate)::TIMESTAMP FROM orderlines) - o.orderdate::TIMESTAMP) AS day_diff, o.quantity, o.prod_id
+        FROM orderlines AS o) AS f
+    GROUP BY f.prod_id) AS comp 
+JOIN products AS p ON p.prod_id=comp.prod_id
+--joining the product revenue to provide a metric of relevance.
+JOIN (select p.prod_id, SUM(p.price*o.quantity) AS product_revenue FROM products AS p 
+      JOIN orderlines AS o ON o.prod_id=p.prod_id
+      group by p.prod_id) AS pr ON pr.prod_id=comp.prod_id
+-The products at the top 
+ORDER BY w_avg_ddiff ASC;
+
+/*
+The data is fairly chaotic due to the nature of the database as a sample db, but this query would be valuable in ordinary circumstances.
+The rows at the top would be trending products that could capitalize on increased marketing. They also may be products whose inventories need to be evaluated.
+However, the importance of their position in the column is only significant if their revenue is substantial. If they have not been ordered in a long period and there is an order,
+it can be assumed to be happenstance rather than a phenomenon of it "trending".
+*/
