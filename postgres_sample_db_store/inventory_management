@@ -1,0 +1,18 @@
+--This query returns the products which have an inventory level less than the previous monthly sales.These products would need to be ordered, if they weren't already.
+select * from 
+    (select f.prod_id, sum(f.quantity) as last_month_sales from 
+        (select * from orderlines as ol
+        join (select o.orderlineid, 
+             (select max(orderdate)::timestamp from orderlines) - o.orderdate::timestamp as day_diff --Creates a set of date differences from the last order date:
+             from orderlines as o)
+        as dd on ol.orderlineid =dd.orderlineid --It's then joined to the full table
+        ) as f
+--Then it is filtered based on the day differential:
+    where (f.day_diff < CAST('30 D' as INTERVAL))
+    group by f.prod_id) as final
+--Then it is joined with the inventory table and filtered based on if the inventory is less than the monthly sales.
+join inventory as i on final.prod_id=i.prod_id
+where final.last_month_sales > quan_in_stock
+;
+
+--However, since it is a sample database, with autopopulated rows, the result was most unhelpful, as you can see in the png.
