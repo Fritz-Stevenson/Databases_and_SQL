@@ -10,21 +10,21 @@ Key Difficiencies Included:
 
 --First, the column names needed to be standardized. Also, as the column Fire Number wasn't standardized, and was both INT and VARCHAR in format, I dropped it from the table.
 
-ALTER TABLE or_fires
+ALTER TABLE or_fires_output
 DROP COLUMN "Fire Number";
-ALTER TABLE or_fires
+ALTER TABLE or_fires_output
 RENAME COLUMN "ODF Acres" TO odf_acres;
-ALTER TABLE or_fires 
+ALTER TABLE or_fires_output 
 RENAME COLUMN "Fire Name" TO fire_name;
-ALTER TABLE or_fires
+ALTER TABLE or_fires_output
 RENAME COLUMN "Report Date" TO report_date;
-ALTER TABLE or_fires
+ALTER TABLE or_fires_output
 RENAME COLUMN "Fire Year" TO fire_year;
-ALTER TABLE or_fires
+ALTER TABLE or_fires_output
 RENAME COLUMN "Fuel Model" TO fuel_model;
-ALTER TABLE or_fires
+ALTER TABLE or_fires_output
 RENAME COLUMN "Total Acres" TO total_acres;
-ALTER TABLE or_fires
+ALTER TABLE or_fires_output
 RENAME "General Cause" TO general_cause; 
 
 -- My workflow was to create a new dummy table to base the final table off of; a lot faster than importing the data again if an alteration failed.
