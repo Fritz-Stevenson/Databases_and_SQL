@@ -1,0 +1,121 @@
+/* 
+This is a database exercise aiming to create a database documenting tea inventory data.
+*/
+
+--Setting up the tables.
+
+create table teacat (
+	id varchar(1) primary key not null,
+	category varchar(255) not null);
+	
+create table teasubcat (
+	id varchar(2) primary key not null,
+	catid varchar(1) not null,
+	subcategory varchar(20) not null,
+	foreign key (catid)
+		references teacat (id)
+	);
+
+create table vendors (
+	id varchar(4) primary key not null,
+	vendor  varchar(30) not null,
+	v_country varchar(30) not null,
+	v_loc varchar(30)
+);
+
+create table teainv (
+	id serial primary key,
+	vid varchar(4) not null,
+	tname varchar(255) not null,
+	catid varchar(1) not null,
+	subcatid varchar(2) not null,
+	hyear int not null,
+	st_weight int not null,
+	p_g numeric(6,2),
+	foreign key(subcatid)
+		references teasubcat (id),
+	foreign key (catid)
+		references teacat (id),
+	foreign key (vid)
+		references vendors(id)
+	);
+
+create table drinklog (
+	did serial primary key,
+	tid int not null,
+	ddate timestamp default current_timestamp not null,
+	weight int not null,
+	rating int,
+	foreign key(tid)
+		references teainv (id)
+	);
+	
+create table tastingnotes (
+	id serial primary key,
+	tid int not null,
+	did int not null,
+	notes varchar(255),
+	foreign key(tid)
+		references teainv(id),
+	foreign key(did)
+		references drinklog(did)
+	);
+
+
+
+--Insert the base categorical options.
+
+insert into teacat (id, category)
+values ('B', 'Black Tea'),
+	('G', 'Green Tea'),
+	('H', 'Heicha'),
+	('P', 'Puerh'),
+	('O', 'Oolong'),
+	('W', 'White Tea'),
+	('Y', 'Yellow Tea');
+
+insert into teasubcat (id, catid, subcategory)
+values('AN', 'H', 'Anhua Heicha'),
+	('CH', 'B', 'Chinese Hongcha'),
+	('DC', 'O', 'Dan Cong Oolong'),
+	('DH', 'B', 'Dian Hong'),
+	('IN', 'B', 'Indian Black'),
+	('LB', 'H', 'Liu Bao'),
+	('LA', 'H', 'Liu An'),
+	('MA', 'G', 'Matcha'),
+	('SE', 'P', 'Sheng Puerh'),
+	('SU', 'H', 'Shu Puerh'),
+	('TO', 'O', 'Taiwanese Oolong'),
+	('YA', 'O', 'Yancha'),
+	('YB', 'P', 'Yabao');
+
+--Insert base vendors
+
+insert into vendor(id, vendor, v_country, v_loc)
+values('YS', 'Yunnan Sourcing', 'China', 'Kunming'),
+	('TB', 'Three Bears Tea', 'USA', 'Washington'), 
+	('PC', 'Purple Cloud Tea House', 'USA', 'California'),
+	('YO', 'Yee On Tea', 'China', 'Hong Kong'),
+	('OWT', 'Old Ways Tea', 'USA', 'California'),
+	('WCT', 'West China Tea', 'USA', 'Texas'),
+	('QFT', 'Qi Fine Teas', 'USA', 'Oregon');
+	
+--Creating a separate insert is simpler than typing out null sometimes.
+
+insert into vendors(id, vendor, v_country)
+values('MST', 'Mountain Stream Teas', 'Taiwan'),
+	('VT', 'Verdant Tea', 'Canada'),
+	('KTM', 'King Tea Mall', 'China'),
+	('TWL', 'Teas We Like', 'Taiwan'),
+	('TS', 'Taiwan Sourcing', 'Taiwan'); 
+
+	
+--Insert tea inventory
+
+insert into teainv (vid, tname, catid, subcatid,hyear,st_weight, p_g)
+values('MST', 'Wild White', 'W', NULL,2018, 40, 35),
+	('VT', 'Crassicolumnar Wild Yabao', 'P', 'YB', 2018,55,45),
+	('KTM', 'Xiaguan Te Ji', 'P', 'SE', 2003, 60, 20), 
+	('YS', 'Pin Xiang Bulang', 'P', 'SE', 2007, 70, 12.4),
+	('TWL', 'Twelve Cent Brick', 'P', 'SE', 2004, 160, 12);
+  --et al
