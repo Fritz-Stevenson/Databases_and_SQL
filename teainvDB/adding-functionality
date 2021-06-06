@@ -1,4 +1,5 @@
--Lookup id in teainv for easy links to drinklog/tastingnotes.
+
+--Lookup id in teainv for easy links to drinklog/tastingnotes.
 
 create or replace function search_tea (tea varchar)
 
@@ -13,11 +14,11 @@ begin
 end
 $func$
 ;
-select * from search_tea('Fu');
+--IE. select * from search_tea('Fu');
+
 
 
 --Quick Analysis of categories.
-
 
 create or replace function cat_highest_price(cat varchar)
 
@@ -50,4 +51,22 @@ begin
 	end if;
 end;
 $func$;
-select * from cat_highest_price('cat');
+--IE select * from cat_highest_price('cat');
+
+
+
+--create a view to as a base for the full inter table data:
+
+create or replace view full_tea_info 
+as
+select v.vendor, tc.category, ts.subcategory, t.tname, t.hyear, t.st_weight, 
+		(t.st_weight-s.sum_drunk) as current_weight, p_g, r.rating
+from teainv as t
+join vendors as v on t.vid = v.id 
+join teasubcat as ts on t.subcatid = ts.id 
+join teacat as tc on t.catid = tc.id 
+full outer join (select tid, sum(weight) as sum_drunk from drinklog group by tid) as s on s.tid = t.id
+full outer join (select tid, avg(rating) as rating from drinklog group by tid) as r on r.tid = t.id
+order by t.tname desc;
+
+
