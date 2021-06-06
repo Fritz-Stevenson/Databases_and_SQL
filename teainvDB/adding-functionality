@@ -1,0 +1,53 @@
+-Lookup id in teainv for easy links to drinklog/tastingnotes.
+
+create or replace function search_tea (tea varchar)
+
+returns table (id int, tname varchar)
+language plpgsql
+as 
+$func$
+begin
+	return QUERY
+	select t.id, t.tname from teainv as t
+	where upper(t.tname) like upper('%' || tea|| '%');
+end
+$func$
+;
+select * from search_tea('Fu');
+
+
+--Quick Analysis of categories.
+
+
+create or replace function cat_highest_price(cat varchar)
+
+returns table (category varchar, average_cents_per_gram numeric)
+language plpgsql
+as 
+$func$
+begin
+	if (cat = 'cat')
+	then return QUERY 
+			select tc.category, SUM((t.p_g*st_weight))/SUM(st_weight) as average_cents_per_gram from teainv as t 
+			join teacat as tc on t.catid = tc.id
+			group by tc.category
+			order by average_cents_per_gram desc;
+	end if;
+	if (cat = 'subcat')
+		then return QUERY
+			select ts.subcategory, SUM((t.p_g*st_weight))/SUM(st_weight) as average_cents_per_gram from teainv as t 
+			join teasubcat as ts on t.subcatid = ts.id
+			group by ts.sucategory
+			order by average_cents_per_gram desc;
+	end if;
+	if (cat = 'ven')
+		then return QUERY
+			select tv.vendor, SUM((t.p_g*st_weight))/SUM(st_weight) as average_cents_per_gram from teainv as t 
+			join vendors as tv on t.vid = tv.id
+			group by tv.vendor
+			order by average_cents_per_gram desc
+			;
+	end if;
+end;
+$func$;
+select * from cat_highest_price('cat');
