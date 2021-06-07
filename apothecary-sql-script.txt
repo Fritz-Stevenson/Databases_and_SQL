@@ -1,0 +1,162 @@
+
+
+--Original table was a raw csv import from concatenated csvs using pandas.
+
+--It needed a unique identifier for joins down the line.
+alter table sales 
+add column id serial primary key not null;
+
+--I created a separate table to protect original data from loss.
+create table sales_treated (
+	orderlineid serial primary key not null,
+	orderid int,
+	order_date date,
+	email varchar,
+	full_name varchar,
+	customer_role varchar,
+	first_order date,
+	customer_total_orders int,
+	customer_total_spent float4,
+	address varchar, 
+	city varchar,
+	state varchar,
+	postcode varchar,
+	country varchar, 
+	product_name varchar,
+	quantity int,
+	revenue varchar,
+	discount float4);
+	
+	
+--I created a function to insert into new table from the raw format. This cut down conversion time.
+create or replace function insert_treated_saleslines(orderid int, order_date date, email varchar, full_name varchar, customer_role varchar, first_order varchar,
+customer_total_orders float4, customer_total_spent float4, address varchar, city varchar, state varchar, postcode varchar, country varchar, 
+product_name varchar, item_cost varchar, quantity varchar, discount float4, order_total float4, spillover varchar)
+returns Boolean
+language plpgsql
+as 
+$func$
+declare 
+split_count int;
+spill_total float4;
+first_order_conversion date;
+begin
+split_count := char_length(quantity)-char_length(replace(quantity, '$', ''));
+if order_total is null then
+	spill_total:= spillover;
+else
+	spill_total := order_total;
+end if;
+if first_order = '' then
+	first_order_conversion = null;
+else 
+	first_order_conversion = cast(first_order as date);
+end if;
+	if split_count = 0 then 
+		insert into sales_treated(orderid, order_date , email , full_name , customer_role , first_order,
+			customer_total_orders, customer_total_spent, address , city , state, postcode, country, 
+			product_name, quantity, revenue, discount)
+		values(orderid, order_date, email, full_name, customer_role , first_order_conversion, cast(customer_total_orders as int), customer_total_spent,
+				address, city, state, postcode, country, product_name, cast(quantity as int), cast(item_cost as float4)*cast(quantity as int),
+				discount/spill_total * (cast(item_cost as float4)*cast(quantity as int))
+		);
+	else 
+		for i in 1..split_count+1
+		loop
+			insert into sales_treated	( orderid, order_date , email , full_name , customer_role , first_order,
+				customer_total_orders, customer_total_spent, address , city , state, postcode, country, 
+				product_name, quantity, revenue, discount)
+			values(orderid, order_date, email, full_name, customer_role , first_order_conversion, cast(customer_total_orders as int), customer_total_spent,
+					address, city, state, postcode, country, split_part(product_name,'$', i), cast(split_part(quantity,'$', i) as int), 
+					cast(split_part(item_cost,'$', i) as float4)*cast(split_part(quantity,'$', i) as int),
+					discount/spill_total * (cast(split_part(item_cost,'$', i) as float4)*cast(split_part(quantity,'$', i) as int))
+			);
+		end loop;
+	end if;
+	return true;
+end;
+$func$;
+
+--used function to insert to sales_treated
+select insert_treated_saleslines(id, cast(order_date as date), email_billing, full_name_shipping, customer_role, 
+								customer_first_order_date, cast(customer_total_orders as float4), cast(customer_total_spent as float4), 
+								address_1_shipping, city_shipping, state_name_shipping, postcode_shipping, country_name_shipping,
+								product_name, item_cost, quantity, cast(discount_amount as float4), cast(order_total_amount as float4), "Unnamed:_0")
+from sales;
+			
+
+--The product_name needed to be cleaned and standardized, and a product_line field needed to be added. 
+
+--i separated these two at first for a join solution down the road
+create table product_info(id serial primary key, 
+	product_name varchar, 
+	);
+
+
+insert into product_info (product_name)
+values('Breakfast Buzz'),( 'Buddha'),( 'Chai Awakening'),( 'Coconut Genmaicha'),( 'Cosmic Cleanse'),( 'Golden Dream'),( 'Highbiscus'),( 'Hemp-Derived CBD Tea'),(
+'Mellow Mint'),( 'Mystic'),( 'Oolong Passion'),( 'Pumpkin Spice'),( 'Sensualitea'),( 'Tea Gift 8-Pack'),( 'Blood Flow'),( 'Cleanse | CBD'),( 'Digest Well'),(
+'Immunity Support'),( 'Mental Clarity'),( 'Sleep Aid'),( 'Super Citrus'),( 'Super Greens'),( 'Supreme Vitality'),( 'Blue Moon'),( 'Chocodelic Trip'),( 'Garden of Eden'),(
+'Golden Milk'),( 'Mighty Matcha'),( 'Peppermint Treat'),( 'Magickal Mushroom'),( 'Hibiscus Goji Berry'),( 'Lavender'),( 'Lemon Ginger'),( 'Orange Turmeric'),( 
+'Organic Wildflower'),( 'Wild Rosin Honey'),( 'Dragon''s Lair'),( 'Stomach Soother'),( 'Calming K9'),('Buzz Balm'),( 'Focus'),( 'Insight'),( 'Love'),( 'Pain Away'),( 'Restful'),( 'Slumbering CBD Bath Soak'),(
+                         'Soothing CBD Body Butter'),( 'Renewing CBD Face Cream'),( 'Unwind'),( 'Sugar Scrub');
+
+
+--Created the product line table
+
+create table product_line_info(id serial primary key,
+	product_line varchar);
+	
+--simplified it using the case condition to preserve object order.
+insert into product_line_info(product_line)
+select case 
+			when product_name in ('Breakfast Buzz', 'Buddha', 'Chai Awakening', 'Coconut Genmaicha', 'Cosmic Cleanse',
+                    'Golden Dream', 'Highbiscus', 'Hemp-Derived CBD Tea', 'Mellow Mint', 'Mystic', 'Oolong Passion',
+                    'Pumpkin Spice', 'Sensualitea', 'Tea Gift 8-Pack')
+			 	then 'tea'
+			when product_name in ('Blood Flow', 'Cleanse | CBD', 'Digest Well', 'Immunity Support', 'Mental Clarity', 'Sleep Aid',
+                        'Super Citrus', 'Super Greens', 'Supreme Vitality')
+				then 'capsules'
+			when product_name in ('CBG Flower', 'Center', 'Kush Hemp CBD Flower', 'Peace', 'Relax', 'Sacred')
+				then 'smokeables'
+			when product_name in ('Buzz Balm', 'Focus', 'Insight', 'Love', 'Pain Away', 'Restful', 'Slumbering CBD Bath Soak',
+                         'Soothing CBD Body Butter', 'Renewing CBD Face Cream', 'Unwind', 'Sugar Scrub')
+				then 'skincare'
+			when product_name in ('Blue Moon', 'Chocodelic Trip', 'Garden of Eden', 'Golden Milk', 'Mighty Matcha',
+                          'Peppermint Treat', 'Magickal Mushroom')
+				then 'superfood'
+			when product_name in ('Hibiscus Goji Berry', 'Lavender', 'Lemon Ginger',
+                      'Orange Turmeric', 'Organic Wildflower', 'Wild Rosin Honey')
+				then 'honey'
+			when product_name in ('Dragon''s Lair', 'Stomach Soother', 'Calming K9')
+				then 'tincture'
+			else
+				'misc'
+			end
+from product_info;
+
+--joined them into one table for a simpler join when the data's finalized.
+
+create table full_product_info 
+as select p.id, p.product_name, l.product_line
+	from product_info as p 
+	join product_line_info as l on p.id=l.id;
+select * from full_product_info;
+
+--Caught missing product in table
+
+insert into full_product_info (product_name, product_line);
+	values('mug', 'misc');
+	
+
+-- Used a join to finalize the cleaned data.
+
+create table sales_final 
+as 
+select s.orderid , s.order_date, s.email, s.full_name, s.customer_role, s.first_order, s.customer_total_orders, s.customer_total_spent,
+	s.address, s.city, s.state, s.postcode, s.country, p.product_name, p.product_line, s.quantity, s.revenue, s.discount 	
+from sales_treated as s 
+--join on with fancy like clause was effective.
+join full_product_info as p on s.product_name ~~ ('%'|| p.product_name|| '%');
+
+--The data was clean and ready to be analyzed.
